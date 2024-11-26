@@ -10,57 +10,111 @@ namespace allOOPprinciplesApplication
     {
         static void Main(string[] args)
         {
-            Rectangle rectangle = new Rectangle { Length = 10, Width = 5 };
-            Console.WriteLine("Rectangle Area: " + rectangle.CalculateArea());
+            Shape[] shapes = new Shape[]
+            {
+            new Rectangle (10,5),
+            new Circle (7),
+            new Triangle(10,8)
+            };
 
-            Circle circle = new Circle { Radius = 7 };
-            Console.WriteLine("Circle Area: " + circle.CalculateArea());
+            foreach (var shape in shapes)
+            {
+                Console.WriteLine(shape.GetType().Name + " Area: " + shape.CalculateArea());
+
+            }
 
         }
     }
 
-    class Rectangle
+    class Shape
     {
-        public double Length { get; set; }
-        public double Width { get; set; }
+        public virtual double CalculateArea()
+        {
+            return 0;
+        }
+    }
 
-        public double CalculateArea()
+    class Rectangle : Shape
+    {
+
+        private double _length;
+        private double _width;
+        public double Length
+        {
+            get => _length;
+            set
+            {
+                if (value >= 0)
+                    _length = value;
+                else
+                    throw new ArgumentException("Length must be positive");
+            }
+        }
+
+        public double Width
+        {
+            get => _width;
+            set
+            {
+                if (value >= 0)
+                    _width = value;
+                else
+                    throw new ArgumentException("Width must be positive");
+            }
+        }
+
+        public Rectangle(double length, double width)
+        {
+            Length = length;
+            Width = width;
+        }
+
+        public override double CalculateArea()
         {
             return Length * Width;
         }
+
     }
 
-    class Circle
+    class Circle : Shape
     {
-        public double Radius { get; set; }
+        private double _radius;
 
-        public double CalculateArea()
+        public double Radius
+        {
+            get => _radius;
+            set
+            {
+                if (value >= 0)
+                    _radius = value;
+                else
+                    throw new ArgumentException("Radius must be positive");
+            }
+        }
+
+        public Circle(double radius)
+        {
+            Radius = radius;
+        }
+
+        public override double CalculateArea()
         {
             return Math.PI * Radius * Radius;
         }
     }
 
-    /*Additional Requirement:
- •	Refactor the Main method to use polymorphism, making it adaptable for new shapes.
- •	Add a Triangle to the system.
+    class Triangle : Rectangle
+    {
 
- class Program
- {
-     static void Main()
-     {
-         // Using polymorphism
-         Shape[] shapes = new Shape[]
-         {
-             new Rectangle { Length = 10, Width = 5 },
-             new Circle { Radius = 7 }
-         };
+        public Triangle(double Length, double width)
+           : base(Length, width)
+        { }
 
-         foreach (var shape in shapes)
-         {
-             Console.WriteLine("Area: " + shape.CalculateArea());
-         }
-     }
- }
- */
+        public override double CalculateArea()
+        {
+            return 0.5 * Length * Width;
+        }
+
+    }
 
 }
