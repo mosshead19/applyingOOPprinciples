@@ -23,15 +23,14 @@ namespace allOOPprinciplesApplication
 
             }
 
+            Console.ReadKey();
+
         }
     }
 
-    class Shape
+    abstract class Shape
     {
-        public virtual double CalculateArea()
-        {
-            return 0;
-        }
+        public abstract double CalculateArea();
     }
 
     class Rectangle : Shape
@@ -42,25 +41,13 @@ namespace allOOPprinciplesApplication
         public double Length
         {
             get => _length;
-            set
-            {
-                if (value >= 0)
-                    _length = value;
-                else
-                    throw new ArgumentException("Length must be positive");
-            }
+            set => _length = value >= 0 ? value : throw new ArgumentException("Length must be positive.");
         }
 
         public double Width
         {
             get => _width;
-            set
-            {
-                if (value >= 0)
-                    _width = value;
-                else
-                    throw new ArgumentException("Width must be positive");
-            }
+            set => _width = value >= 0 ? value : throw new ArgumentException("Width must be positive.");
         }
 
         public Rectangle(double length, double width)
@@ -80,16 +67,11 @@ namespace allOOPprinciplesApplication
     {
         private double _radius;
 
-        public double Radius
+       public double Radius
         {
             get => _radius;
-            set
-            {
-                if (value >= 0)
-                    _radius = value;
-                else
-                    throw new ArgumentException("Radius must be positive");
-            }
+            set => _radius = value >= 0 ? value : throw new ArgumentException("Radius must be positive.");
+
         }
 
         public Circle(double radius)
@@ -103,16 +85,31 @@ namespace allOOPprinciplesApplication
         }
     }
 
-    class Triangle : Rectangle
+    class Triangle : Shape
     {
+        private double _base;
+        private double _height;
 
-        public Triangle(double Length, double width)
-           : base(Length, width)
-        { }
+        public double Base
+        {
+            get => _base;
+            private set => _base = value >= 0 ? value : throw new ArgumentException("Base cannot be negative.");
+        }
 
+        public double Height
+        {
+            get => _height;
+            private set => _height = value >= 0 ? value : throw new ArgumentException("Height cannot be negative.");
+        }
+
+        public Triangle(double baseLength, double height)
+        {
+            Base = baseLength;
+            Height = height;
+        }
         public override double CalculateArea()
         {
-            return 0.5 * Length * Width;
+            return 0.5 * Base * Height;
         }
 
     }
